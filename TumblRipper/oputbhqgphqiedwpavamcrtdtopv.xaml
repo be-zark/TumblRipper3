@@ -1,0 +1,26 @@
+<UserControl
+	x:Class="btStrePEjrGtRbvZoDAvgUQjnhDIb" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:TumblRipper" xmlns:Views="clr-namespace:TumblRipper.Views"
+	Height="150" xmlns:global="clr-namespace:">
+	<FrameworkElement.DataContext>
+		<!--'global' is prefix for the global namespace.-->
+		<global:lrtZJolGKLWLWDEjbmnTyeodokHR xmlns:global="clr-namespace:" />
+	</FrameworkElement.DataContext>
+	<StackPanel
+		Orientation="Vertical">
+		<TextBlock
+			TextAlignment="Center"
+			VerticalAlignment="Center"
+			FontSize="40"
+			Text="{Binding Amount, StringFormat={}{0} €}" />
+		<Slider
+			Margin="30,10,30,10"
+			Minimum="5"
+			Maximum="50"
+			SmallChange="1"
+			LargeChange="5"
+			Value="{Binding Amount}" />
+		<Button
+			Content="Donate"
+			Width="100" />
+	</StackPanel>
+</UserControl>

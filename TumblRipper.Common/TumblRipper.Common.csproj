@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B95AECF6-E218-4D74-A8D2-7B1B8A4B451E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TumblRipper</RootNamespace>
+    <AssemblyName>TumblRipper.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Security" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="-Module-.cs" />
+    <Compile Include="Common\Annotations\AspChildControlTypeAttribute.cs" />
+    <Compile Include="Common\Annotations\AspDataFieldAttribute.cs" />
+    <Compile Include="Common\Annotations\AspDataFieldsAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMethodPropertyAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcActionAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcActionSelectorAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcAreaAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcAreaMasterLocationFormatAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcAreaPartialViewLocationFormatAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcAreaViewLocationFormatAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcControllerAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcDisplayTemplateAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcEditorTemplateAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcMasterAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcMasterLocationFormatAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcModelTypeAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcPartialViewAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcPartialViewLocationFormatAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcSuppressViewErrorAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcTemplateAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcViewAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcViewComponentAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcViewComponentViewAttribute.cs" />
+    <Compile Include="Common\Annotations\AspMvcViewLocationFormatAttribute.cs" />
+    <Compile Include="Common\Annotations\AspRequiredAttributeAttribute.cs" />
+    <Compile Include="Common\Annotations\AspTypePropertyAttribute.cs" />
+    <Compile Include="Common\Annotations\AssertionConditionAttribute.cs" />
+    <Compile Include="Common\Annotations\AssertionConditionType.cs" />
+    <Compile Include="Common\Annotations\AssertionMethodAttribute.cs" />
+    <Compile Include="Common\Annotations\BaseTypeRequiredAttribute.cs" />
+    <Compile Include="Common\Annotations\CanBeNullAttribute.cs" />
+    <Compile Include="Common\Annotations\CannotApplyEqualityOperatorAttribute.cs" />
+    <Compile Include="Common\Annotations\CollectionAccessAttribute.cs" />
+    <Compile Include="Common\Annotations\CollectionAccessType.cs" />
+    <Compile Include="Common\Annotations\ContractAnnotationAttribute.cs" />
+    <Compile Include="Common\Annotations\HtmlAttributeValueAttribute.cs" />
+    <Compile Include="Common\Annotations\HtmlElementAttributesAttribute.cs" />
+    <Compile Include="Common\Annotations\ImplicitNotNullAttribute.cs" />
+    <Compile Include="Common\Annotations\ImplicitUseKindFlags.cs" />
+    <Compile Include="Common\Annotations\ImplicitUseTargetFlags.cs" />
+    <Compile Include="Common\Annotations\InstantHandleAttribute.cs" />
+    <Compile Include="Common\Annotations\InvokerParameterNameAttribute.cs" />
+    <Compile Include="Common\Annotations\ItemCanBeNullAttribute.cs" />
+    <Compile Include="Common\Annotations\ItemNotNullAttribute.cs" />
+    <Compile Include="Common\Annotations\LinqTunnelAttribute.cs" />
+    <Compile Include="Common\Annotations\LocalizationRequiredAttribute.cs" />
+    <Compile Include="Common\Annotations\MacroAttribute.cs" />
+    <Compile Include="Common\Annotations\MeansImplicitUseAttribute.cs" />
+    <Compile Include="Common\Annotations\MustUseReturnValueAttribute.cs" />
+    <Compile Include="Common\Annotations\NoEnumerationAttribute.cs" />
+    <Compile Include="Common\Annotations\NoReorder.cs" />
+    <Compile Include="Common\Annotations\NotifyPropertyChangedInvocatorAttribute.cs" />
+    <Compile Include="Common\Annotations\NotNullAttribute.cs" />
+    <Compile Include="Common\Annotations\PathReferenceAttribute.cs" />
+    <Compile Include="Common\Annotations\ProvidesContextAttribute.cs" />
+    <Compile Include="Common\Annotations\PublicAPIAttribute.cs" />
+    <Compile Include="Common\Annotations\PureAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorDirectiveAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorHelperCommonAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorImportNamespaceAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorInjectionAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorLayoutAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorSectionAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorWriteLiteralMethodAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorWriteMethodAttribute.cs" />
+    <Compile Include="Common\Annotations\RazorWriteMethodParameterAttribute.cs" />
+    <Compile Include="Common\Annotations\RegexPatternAttribute.cs" />
+    <Compile Include="Common\Annotations\SourceTemplateAttribute.cs" />
+    <Compile Include="Common\Annotations\StringFormatMethodAttribute.cs" />
+    <Compile Include="Common\Annotations\TerminatesProgramAttribute.cs" />
+    <Compile Include="Common\Annotations\UsedImplicitlyAttribute.cs" />
+    <Compile Include="Common\Annotations\ValueProviderAttribute.cs" />
+    <Compile Include="Common\Annotations\XamlItemBindingOfItemsControlAttribute.cs" />
+    <Compile Include="Common\Annotations\XamlItemsControlAttribute.cs" />
+    <Compile Include="Common\Controller.cs" />
+    <Compile Include="Common\lib\PluginLoader.cs" />
+    <Compile Include="Common\models\WebsiteSettings.cs" />
+    <Compile Include="ConfusedByAttribute.cs" />
+    <Compile Include="FileToDownload.cs" />
+    <Compile Include="LicenceValidation.cs" />
+    <Compile Include="MyAppSettings.cs" />
+    <Compile Include="MyLicence.cs" />
+    <Compile Include="MySettings.cs" />
+    <Compile Include="MyWebClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ripper.cs" />
+    <Compile Include="StatusObject.cs" />
+    <Compile Include="TumblrWebsite.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="Website.cs" />
+    <Compile Include="Websites.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TumblRipper.PluginInterface\TumblRipper.PluginInterface.csproj">
+      <Project>{B95AECF6-E218-4D74-A8D2-7B1B8A4B4520}</Project>
+      <Name>TumblRipper.PluginInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
