@@ -1,0 +1,23 @@
+<XpiUnWqHsYDkQeqRbTZVPWrvsxcaA xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                               xmlns:local="clr-namespace:TumblRipper.Windows"
+                               xmlns:Views="clr-namespace:TumblRipper.Windows.Views"
+                               GlowBrush="{DynamicResource AccentColorBrush}" Control.BorderThickness="1" Window.Title="About"
+                               FrameworkElement.Height="310" FrameworkElement.Width="570">
+  <FrameworkElement.DataContext>
+    <GjlxBfbFBhVyzRvjTgktCYpbKcZP/>
+  </FrameworkElement.DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <TextBlock FontWeight="Bold" FontSize="16" FontFamily="Segoe UI Semibold" HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Text="{Binding Path=CurrentVersion, StringFormat='Current Version : {0}'}"/>
+    <UserControl Grid.Row="1" Margin="10" Content="{Binding MyUserControl}"/>
+  </Grid>
+</XpiUnWqHsYDkQeqRbTZVPWrvsxcaA>

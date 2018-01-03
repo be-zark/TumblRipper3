@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Project was exported from assembly: C:\Users\xen\Downloads\TumblRipper3\TumblRipper.Windows.exe-->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9D38A273-CCC0-41D8-AFC8-C6D3C7A6357C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>TumblRipper.Windows</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <ApplicationVersion>3.2.4.0</ApplicationVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="TumblRipper.Common">
+      <HintPath>lib\TumblRipper.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="TumblRipper.PluginInterface">
+      <HintPath>lib\TumblRipper.PluginInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="%003CModule%003E.cs" />
+    <Compile Include="GAttribute66.cs" />
+    <Compile Include="GAttribute65.cs" />
+    <Compile Include="GAttribute64.cs" />
+    <Compile Include="GAttribute63.cs" />
+    <Compile Include="GAttribute62.cs" />
+    <Compile Include="GAttribute61.cs" />
+    <Compile Include="GAttribute60.cs" />
+    <Compile Include="GAttribute59.cs" />
+    <Compile Include="GAttribute58.cs" />
+    <Compile Include="GAttribute57.cs" />
+    <Compile Include="GAttribute56.cs" />
+    <Compile Include="GAttribute55.cs" />
+    <Compile Include="GAttribute54.cs" />
+    <Compile Include="GAttribute53.cs" />
+    <Compile Include="GAttribute52.cs" />
+    <Compile Include="GAttribute51.cs" />
+    <Compile Include="GAttribute50.cs" />
+    <Compile Include="GAttribute49.cs" />
+    <Compile Include="GEnum3.cs" />
+    <Compile Include="GAttribute48.cs" />
+    <Compile Include="GAttribute47.cs" />
+    <Compile Include="GEnum2.cs" />
+    <Compile Include="GAttribute46.cs" />
+    <Compile Include="GAttribute45.cs" />
+    <Compile Include="GAttribute44.cs" />
+    <Compile Include="GAttribute43.cs" />
+    <Compile Include="GAttribute42.cs" />
+    <Compile Include="GAttribute41.cs" />
+    <Compile Include="GAttribute40.cs" />
+    <Compile Include="GAttribute39.cs" />
+    <Compile Include="GAttribute38.cs" />
+    <Compile Include="GAttribute37.cs" />
+    <Compile Include="GAttribute36.cs" />
+    <Compile Include="GAttribute35.cs" />
+    <Compile Include="GAttribute34.cs" />
+    <Compile Include="GAttribute33.cs" />
+    <Compile Include="GAttribute32.cs" />
+    <Compile Include="GAttribute31.cs" />
+    <Compile Include="GAttribute30.cs" />
+    <Compile Include="GAttribute29.cs" />
+    <Compile Include="GAttribute28.cs" />
+    <Compile Include="GAttribute27.cs" />
+    <Compile Include="GAttribute26.cs" />
+    <Compile Include="GAttribute25.cs" />
+    <Compile Include="GAttribute24.cs" />
+    <Compile Include="GAttribute23.cs" />
+    <Compile Include="GAttribute22.cs" />
+    <Compile Include="GAttribute21.cs" />
+    <Compile Include="GAttribute20.cs" />
+    <Compile Include="GAttribute19.cs" />
+    <Compile Include="GAttribute18.cs" />
+    <Compile Include="GAttribute17.cs" />
+    <Compile Include="GAttribute16.cs" />
+    <Compile Include="GAttribute15.cs" />
+    <Compile Include="GEnum1.cs" />
+    <Compile Include="GEnum0.cs" />
+    <Compile Include="GAttribute14.cs" />
+    <Compile Include="GAttribute13.cs" />
+    <Compile Include="GAttribute12.cs" />
+    <Compile Include="GAttribute11.cs" />
+    <Compile Include="GAttribute10.cs" />
+    <Compile Include="GAttribute9.cs" />
+    <Compile Include="GAttribute8.cs" />
+    <Compile Include="GAttribute7.cs" />
+    <Compile Include="GAttribute6.cs" />
+    <Compile Include="GAttribute5.cs" />
+    <Compile Include="GAttribute4.cs" />
+    <Compile Include="GAttribute3.cs" />
+    <Compile Include="GAttribute2.cs" />
+    <Compile Include="GAttribute1.cs" />
+    <Compile Include="GAttribute0.cs" />
+    <Compile Include="fBNJIXiYZSrrQLEPrbpdSeciniHk.cs" />
+    <Compile Include="RskINpIpUjZYynMcjmeZRkGlmWbw.cs" />
+    <Compile Include="gImazEYxmUxzXBeWouOTNYaHQdxr.cs" />
+    <Compile Include="jNZshobRhysiXbmjDDUtHtLNjDTUA.cs" />
+    <Compile Include="bBRPkuYmGtxuOzRzcuXMrzPlvYrv.cs" />
+    <Compile Include="AevcykIBNFviTKdCmDfOwkCQxBom.cs" />
+    <Compile Include="GjlxBfbFBhVyzRvjTgktCYpbKcZP.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="UjdRFFDoJgqmuTOlkrKxGSuThRuO.cs" />
+    <Compile Include="UjhNUECyvifOzVkmQlhIqhYWIGFh.cs" />
+    <Compile Include="ZWpYpXiTtrQKTKqofGoKghjCqPDc.cs" />
+    <Compile Include="lXwNBETlUICPpizJQplTWzgWkAbIA.cs" />
+    <Compile Include="Class0.cs" />
+    <Compile Include="FUBBlEfCteGiEUOpeldksiHKigIo.cs" />
+    <Compile Include="OqNSZsVHoOzMSxiDxujnNZLcaZYc.cs" />
+    <Compile Include="GClass1.cs" />
+    <Compile Include="vnfbFhDOkkXztptoLcMKEpTUFfIe.cs" />
+    <Compile Include="XpiUnWqHsYDkQeqRbTZVPWrvsxcaA.cs" />
+    <Compile Include="GClass0.cs" />
+    <Compile Include="GAttribute68.cs" />
+    <Compile Include="GAttribute69.cs" />
+    <Compile Include="GAttribute67.cs" />
+    <Compile Include="TumblRipper\Windows\Properties\Settings.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="~y%0022qANcc0h\]NKshv4F{a2=m2$.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="fnkjjjxfdphemdrvutjbmjbwwxeja.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="glunmqnmlicfjuvmjbrjsukoxiyg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="kutbyidxbymlvuplynpohwivjqddb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="mmocwitzrmexowdgabzycsxbisud.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="nashmtaovnyxckvwwxtnhbeyvzbj.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="oihqfqiuezppzpmavwbbqoifhblf.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="spaooiehnjvdllqykhnnzjidsvjr.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="uibwtbuuhwcsudwpsgkdaasxknnw.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

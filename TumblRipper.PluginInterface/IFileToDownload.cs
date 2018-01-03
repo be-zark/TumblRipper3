@@ -1,23 +1,17 @@
-﻿using System;
+﻿// Decompiled with JetBrains decompiler
+// Type: TumblRipper.PluginInterface.IFileToDownload
+// Assembly: TumblRipper.PluginInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: E766857F-E220-474D-9A9B-64EE1BB1D7AF
+// Assembly location: C:\Users\xen\Downloads\TumblRipper3\TumblRipper.PluginInterface.dll
 
-namespace TumblRipper
+namespace TumblRipper.PluginInterface
 {
-	// Token: 0x0200000D RID: 13
-	public interface IFileToDownload
-	{
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x06000052 RID: 82
-		// (set) Token: 0x06000053 RID: 83
-		string Key { get; set; }
+  public interface IFileToDownload
+  {
+    string Key { get; set; }
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x06000054 RID: 84
-		// (set) Token: 0x06000055 RID: 85
-		string Url { get; set; }
+    string Url { get; set; }
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000056 RID: 86
-		// (set) Token: 0x06000057 RID: 87
-		string Filename { get; set; }
-	}
+    string Filename { get; set; }
+  }
 }

@@ -1,354 +1,498 @@
-﻿using System;
+﻿// Decompiled with JetBrains decompiler
+// Type: TumblRipper.Common.Ripper
+// Assembly: TumblRipper.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: 6C21BADD-58D6-4711-989C-48D300E54E81
+// Assembly location: C:\Users\xen\Downloads\TumblRipper3\TumblRipper.Common.dll
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using TumblRipper.PluginInterface;
 
-namespace TumblRipper
+namespace TumblRipper.Common
 {
-	// Token: 0x0200000D RID: 13
-	public class Ripper : IRipper
-	{
-		// Token: 0x17000001 RID: 1
-		// (get) Token: 0x0600003D RID: 61 RVA: 0x000040EC File Offset: 0x000022EC
-		// (set) Token: 0x0600003E RID: 62 RVA: 0x00004100 File Offset: 0x00002300
-		public List<IFileToDownload> FailedPosts { get; set; }
+  public class Ripper : IRipper
+  {
+    private readonly string string_0;
 
-		// Token: 0x17000002 RID: 2
-		// (get) Token: 0x0600003F RID: 63 RVA: 0x00004114 File Offset: 0x00002314
-		// (set) Token: 0x06000040 RID: 64 RVA: 0x00004128 File Offset: 0x00002328
-		public List<Thread> ActiveThreads { get; set; }
+    public int GetPostsFound
+    {
+      get
+      {
+        System.Collections.Generic.Queue<IFileToDownload> postsFound = this.PostsFound;
+        bool lockTaken = false;
+        try
+        {
+          Monitor.Enter((object) postsFound, ref lockTaken);
+          return this.PostsFound.Count;
+        }
+        finally
+        {
+          if (lockTaken)
+            Monitor.Exit((object) postsFound);
+        }
+      }
+    }
 
-		// Token: 0x17000003 RID: 3
-		// (get) Token: 0x06000041 RID: 65 RVA: 0x0000413C File Offset: 0x0000233C
-		// (set) Token: 0x06000042 RID: 66 RVA: 0x00004150 File Offset: 0x00002350
-		public List<IFileToDownload> History { get; set; }
+    public int GetActiveThreadCount
+    {
+      get
+      {
+        IList<Thread> activeThreads = this.ActiveThreads;
+        bool lockTaken = false;
+        try
+        {
+          Monitor.Enter((object) activeThreads, ref lockTaken);
+          return this.ActiveThreads.Count;
+        }
+        finally
+        {
+          if (lockTaken)
+            Monitor.Exit((object) activeThreads);
+        }
+      }
+    }
 
-		// Token: 0x17000004 RID: 4
-		// (get) Token: 0x06000043 RID: 67 RVA: 0x00004164 File Offset: 0x00002364
-		// (set) Token: 0x06000044 RID: 68 RVA: 0x00004178 File Offset: 0x00002378
-		public Queue<IFileToDownload> PostsFound { get; set; }
+    public StatusObject Status
+    {
+      get
+      {
+        return ((TumblRipper.Common.Website) this.Website).Status;
+      }
+    }
 
-		// Token: 0x17000005 RID: 5
-		// (get) Token: 0x06000045 RID: 69 RVA: 0x0000418C File Offset: 0x0000238C
-		// (set) Token: 0x06000046 RID: 70 RVA: 0x000041A0 File Offset: 0x000023A0
-		public IWebsite Website { get; set; }
+    public IList<IFileToDownloadFailed> FailedPosts { get; set; }
 
-		// Token: 0x17000006 RID: 6
-		// (get) Token: 0x06000047 RID: 71 RVA: 0x000041B4 File Offset: 0x000023B4
-		// (set) Token: 0x06000048 RID: 72 RVA: 0x000041C8 File Offset: 0x000023C8
-		public int MaxThreads { get; set; }
+    public IList<Thread> ActiveThreads { get; set; }
 
-		// Token: 0x17000007 RID: 7
-		// (get) Token: 0x06000049 RID: 73 RVA: 0x000041DC File Offset: 0x000023DC
-		public int GetPostsFound
-		{
-			get
-			{
-				int result = 0;
-				Queue<IFileToDownload> postsFound = this.PostsFound;
-				lock (postsFound)
-				{
-					result = this.PostsFound.Count;
-				}
-				return result;
-			}
-		}
+    public IList<IFileToDownload> History { get; set; }
 
-		// Token: 0x17000008 RID: 8
-		// (get) Token: 0x0600004A RID: 74 RVA: 0x00004228 File Offset: 0x00002428
-		public int GetActiveThreadCount
-		{
-			get
-			{
-				int result = 0;
-				List<Thread> activeThreads = this.ActiveThreads;
-				lock (activeThreads)
-				{
-					result = this.ActiveThreads.Count;
-				}
-				return result;
-			}
-		}
+    public System.Collections.Generic.Queue<IFileToDownload> PostsFound { get; set; }
 
-		// Token: 0x0600004B RID: 75 RVA: 0x00004274 File Offset: 0x00002474
-		public int DownloadFile(IFileToDownload myfile)
-		{
-			string text = Path.Combine(this.string_0, myfile.Filename);
-			MyWebClient myWebClient = new MyWebClient();
-			int num = 200;
-			try
-			{
-				myWebClient.DownloadFile(myfile.Url, text);
-			}
-			catch (WebException ex)
-			{
-				HttpWebResponse httpWebResponse = (HttpWebResponse)ex.Response;
-				if (httpWebResponse != null)
-				{
-					if (httpWebResponse.StatusCode != HttpStatusCode.NotFound)
-					{
-						if (httpWebResponse.StatusCode != HttpStatusCode.Forbidden)
-						{
-							num = 99;
-							goto IL_66;
-						}
-					}
-					num = 404;
-				}
-				else
-				{
-					num = -1;
-				}
-				IL_66:;
-			}
-			catch (Exception)
-			{
-				num = 99;
-			}
-			if (!File.Exists(text))
-			{
-				return -1;
-			}
-			if (new FileInfo(text).Length < 1L)
-			{
-				num = -1;
-			}
-			if (num == 200)
-			{
-				WebHeaderCollection responseHeaders = myWebClient.ResponseHeaders;
-				DateTime creationTime = DateTime.Now;
-				for (int i = 0; i < responseHeaders.Count; i++)
-				{
-					if (responseHeaders.GetKey(i).Equals("Last-Modified"))
-					{
-						creationTime = DateTime.Parse(responseHeaders.Get(i));
-					}
-				}
-				try
-				{
-					File.SetCreationTime(text, creationTime);
-				}
-				catch (Exception)
-				{
-				}
-			}
-			if (myWebClient != null)
-			{
-				myWebClient.Dispose();
-			}
-			return num;
-		}
+    public IWebsite Website { get; set; }
 
-		// Token: 0x0600004C RID: 76 RVA: 0x000043A4 File Offset: 0x000025A4
-		public Ripper(IWebsite iwebsite_1)
-		{
-			this.ActiveThreads = new List<Thread>();
-			this.History = MySettings.Instance.LoadHistoryFile(iwebsite_1.HistoryFilePath);
-			this.FailedPosts = MySettings.Instance.LoadHistoryFile(iwebsite_1.FailedFilePath);
-			this.PostsFound = new Queue<IFileToDownload>(MySettings.Instance.LoadHistoryFile(iwebsite_1.PendingFilePath));
-			this.string_0 = iwebsite_1.LocalDir;
-			this.Website = iwebsite_1;
-			this.MaxThreads = 20;
-		}
+    public int MaxThreads { get; set; }
 
-		// Token: 0x0600004D RID: 77 RVA: 0x00004424 File Offset: 0x00002624
-		public string MakeValidFileName(string name)
-		{
-			string arg = Regex.Escape(new string(Path.GetInvalidFileNameChars()));
-			string pattern = string.Format("([{0}]*\\.+$)|([{0}]+)", arg);
-			return Regex.Replace(name, pattern, "_");
-		}
+    public Ripper(IWebsite iwebsite_1)
+    {
+      this.ActiveThreads = (IList<Thread>) new List<Thread>();
+      this.History = MySettings.Instance.LoadHistoryFile(iwebsite_1.HistoryFilePath);
+      this.FailedPosts = (IList<IFileToDownloadFailed>) Enumerable.ToList<IFileToDownloadFailed>(Enumerable.Cast<IFileToDownloadFailed>((IEnumerable) MySettings.Instance.LoadHistoryFile(iwebsite_1.FailedFilePath)));
+      this.PostsFound = new System.Collections.Generic.Queue<IFileToDownload>((IEnumerable<IFileToDownload>) MySettings.Instance.LoadHistoryFile(iwebsite_1.PendingFilePath));
+      this.string_0 = iwebsite_1.LocalDir;
+      this.Website = iwebsite_1;
+      this.MaxThreads = 15;
+      this.UpdateStatusTotalPosts(this.History.Count);
+      this.UpdateStatusPendingPosts(this.PostsFound.Count);
+      this.UpdateStatusFailedPosts(this.FailedPosts.Count);
+    }
 
-		// Token: 0x0600004E RID: 78 RVA: 0x0000445C File Offset: 0x0000265C
-		public string GetWebPage(string url)
-		{
-			string text = null;
-			using (MyWebClient myWebClient = new MyWebClient())
-			{
-				try
-				{
-					byte[] bytes = myWebClient.DownloadData(url);
-					text = Encoding.UTF8.GetString(bytes);
-					myWebClient.StatusCode();
-					if (text.Contains("Rate limit exceeded"))
-					{
-						throw new Exception("Rate limit exceeded !!!");
-					}
-				}
-				catch (Exception)
-				{
-					text = null;
-				}
-			}
-			return text;
-		}
+    public FileToDownloadStatusCodes DownloadFile(IFileToDownload myfile)
+    {
+      string str = Path.Combine(this.string_0, myfile.Filename);
+      MyWebClient myWebClient = new MyWebClient();
+      FileToDownloadStatusCodes downloadStatusCodes = FileToDownloadStatusCodes.OK;
+      try
+      {
+        myWebClient.AllowAutoRedirect = true;
+        myWebClient.DownloadFile(myfile.Url, str);
+      }
+      catch (WebException ex)
+      {
+        HttpWebResponse httpWebResponse = (HttpWebResponse) ex.Response;
+        downloadStatusCodes = httpWebResponse != null ? (FileToDownloadStatusCodes) httpWebResponse.StatusCode : FileToDownloadStatusCodes.UnknownError;
+      }
+      catch (Exception ex)
+      {
+        downloadStatusCodes = FileToDownloadStatusCodes.UnknownError;
+      }
+      if (downloadStatusCodes == FileToDownloadStatusCodes.OK)
+      {
+        if (!System.IO.File.Exists(str))
+          return FileToDownloadStatusCodes.FileNotDownloaded;
+        try
+        {
+          if (new FileInfo(str).Length < 1L)
+            downloadStatusCodes = FileToDownloadStatusCodes.FileDownloadedButEmpty;
+        }
+        catch (Exception ex)
+        {
+          downloadStatusCodes = FileToDownloadStatusCodes.FileUnknownError;
+        }
+        WebHeaderCollection responseHeaders = myWebClient.ResponseHeaders;
+        DateTime creationTime = DateTime.Now;
+        for (int index = 0; index < responseHeaders.Count; ++index)
+        {
+          if (responseHeaders.GetKey(index).Equals("Last-Modified"))
+            creationTime = DateTime.Parse(responseHeaders.Get(index));
+        }
+        try
+        {
+          System.IO.File.SetCreationTime(str, creationTime);
+        }
+        catch (Exception ex)
+        {
+        }
+      }
+      if (myWebClient != null)
+        myWebClient.Dispose();
+      return downloadStatusCodes;
+    }
 
-		// Token: 0x0600004F RID: 79 RVA: 0x000044D4 File Offset: 0x000026D4
-		public string PostWebPage(string url, NameValueCollection param)
-		{
-			string result = null;
-			using (MyWebClient myWebClient = new MyWebClient())
-			{
-				try
-				{
-					myWebClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-					byte[] bytes = myWebClient.UploadValues(url, "POST", param);
-					myWebClient.StatusCode();
-					WebHeaderCollection responseHeaders = myWebClient.ResponseHeaders;
-					result = Encoding.UTF8.GetString(bytes);
-				}
-				catch (Exception)
-				{
-					result = null;
-				}
-			}
-			return result;
-		}
+    public string MakeValidFileName(string name)
+    {
+      string pattern = string.Format("([{0}]*\\.+$)|([{0}]+)", (object) Regex.Escape(new string(Path.GetInvalidFileNameChars())));
+      return Regex.Replace(name, pattern, "_");
+    }
 
-		// Token: 0x17000009 RID: 9
-		// (get) Token: 0x06000050 RID: 80 RVA: 0x00004554 File Offset: 0x00002754
-		public StatusObject Status
-		{
-			get
-			{
-				return ((Website)this.Website).Status;
-			}
-		}
+    public string GetWebPage(string url)
+    {
+      List<Cookie> cookies = new List<Cookie>();
+      return this.GetWebPage(url, ref cookies);
+    }
 
-		// Token: 0x06000051 RID: 81 RVA: 0x00004574 File Offset: 0x00002774
-		public void SaveFailed()
-		{
-			MySettings.Instance.SaveHistoryFile(this.FailedPosts, this.Website.FailedFilePath);
-		}
+    public string GetWebPage(string url, ref List<Cookie> cookies)
+    {
+      string str = (string) null;
+      using (MyWebClient myWebClient = new MyWebClient())
+      {
+        myWebClient.AllowAutoRedirect = true;
+        myWebClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+        if (cookies != null && cookies.Count > 0)
+        {
+          myWebClient.cookies = new CookieContainer(cookies.Count);
+          foreach (Cookie cookie in cookies)
+            myWebClient.cookies.Add(cookie);
+        }
+        try
+        {
+          byte[] bytes = myWebClient.DownloadData(url);
+          if (cookies != null)
+          {
+            foreach (Cookie cookie in myWebClient.ResponseCookies)
+              cookies.Add(cookie);
+          }
+          str = Encoding.UTF8.GetString(bytes);
+          int num = (int) myWebClient.StatusCode();
+          if (str.Contains("Rate limit exceeded"))
+            throw new Exception("Rate limit exceeded !!!");
+        }
+        catch (Exception ex)
+        {
+          str = (string) null;
+        }
+      }
+      return str;
+    }
 
-		// Token: 0x06000052 RID: 82 RVA: 0x0000459C File Offset: 0x0000279C
-		public void SaveHistory()
-		{
-			MySettings.Instance.SaveHistoryFile(this.History, this.Website.HistoryFilePath);
-		}
+    public string PostWebPage(string url, NameValueCollection param)
+    {
+      List<Cookie> cookies = new List<Cookie>();
+      return this.PostWebPage(url, param, ref cookies);
+    }
 
-		// Token: 0x06000053 RID: 83 RVA: 0x000045C4 File Offset: 0x000027C4
-		public void SavePostsFound()
-		{
-			MySettings.Instance.SaveHistoryFile(new List<IFileToDownload>(this.PostsFound), this.Website.PendingFilePath);
-		}
+    public string PostWebPagePayload(string url, string payload, ref List<Cookie> cookies)
+    {
+      using (MyWebClient myWebClient = new MyWebClient())
+      {
+        try
+        {
+          myWebClient.Headers.Add("Content-Type", "text/plain;charset=UTF-8");
+          myWebClient.Headers.Add("Referer", "https://www.tumblr.com/login");
+          myWebClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+          myWebClient.Headers.Add("Origin", "https://www.tumblr.com");
+          if (cookies != null && cookies.Count > 0)
+          {
+            myWebClient.cookies = new CookieContainer(cookies.Count);
+            foreach (Cookie cookie in cookies)
+              myWebClient.cookies.Add(cookie);
+          }
+          byte[] bytes = myWebClient.UploadData(url, Encoding.UTF8.GetBytes(payload));
+          myWebClient.ResponseHeaders.ToString();
+          int num = (int) myWebClient.StatusCode();
+          WebHeaderCollection responseHeaders = myWebClient.ResponseHeaders;
+          CookieCollection responseCookies = myWebClient.ResponseCookies;
+          if (cookies != null)
+          {
+            foreach (Cookie cookie in myWebClient.ResponseCookies)
+              cookies.Add(cookie);
+          }
+          return Encoding.UTF8.GetString(bytes);
+        }
+        catch (Exception ex)
+        {
+          return (string) null;
+        }
+      }
+    }
 
-		// Token: 0x06000054 RID: 84 RVA: 0x000045F4 File Offset: 0x000027F4
-		public IFileToDownload NewDownloadFile(string url, string filename, string key)
-		{
-			return new FileToDownload(url, filename, key);
-		}
+    public string PostWebPage(string url, NameValueCollection param, ref List<Cookie> cookies)
+    {
+      using (MyWebClient myWebClient = new MyWebClient())
+      {
+        try
+        {
+          myWebClient.AllowAutoRedirect = false;
+          myWebClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+          myWebClient.Headers.Add("Referer", "https://www.tumblr.com/login");
+          myWebClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+          myWebClient.Headers.Add("Origin", "https://www.tumblr.com");
+          if (cookies != null && cookies.Count > 0)
+          {
+            myWebClient.cookies = new CookieContainer(cookies.Count);
+            foreach (Cookie cookie in cookies)
+              myWebClient.cookies.Add(cookie);
+          }
+          byte[] bytes = myWebClient.UploadValues(url, "POST", param);
+          myWebClient.ResponseHeaders.ToString();
+          int num = (int) myWebClient.StatusCode();
+          WebHeaderCollection responseHeaders = myWebClient.ResponseHeaders;
+          CookieCollection responseCookies = myWebClient.ResponseCookies;
+          if (cookies != null)
+          {
+            foreach (Cookie cookie in myWebClient.ResponseCookies)
+              cookies.Add(cookie);
+          }
+          return Encoding.UTF8.GetString(bytes);
+        }
+        catch (Exception ex)
+        {
+          return (string) null;
+        }
+      }
+    }
 
-		// Token: 0x06000055 RID: 85 RVA: 0x0000460C File Offset: 0x0000280C
-		public IFileToDownload NewDownloadFile(string url, string filename)
-		{
-			return new FileToDownload(url, filename);
-		}
+    public void SaveFailed()
+    {
+      MySettings.Instance.SaveHistoryFile((IEnumerable<IFileToDownload>) this.FailedPosts, this.Website.FailedFilePath);
+    }
 
-		// Token: 0x06000056 RID: 86 RVA: 0x00004620 File Offset: 0x00002820
-		public void UpdateStatusTotalPosts(int val)
-		{
-			StatusObject status = this.Status;
-			lock (status)
-			{
-				this.Status.TotalPosts = val;
-			}
-		}
+    public void SaveHistory()
+    {
+      MySettings.Instance.SaveHistoryFile((IEnumerable<IFileToDownload>) this.History, this.Website.HistoryFilePath);
+    }
 
-		// Token: 0x06000057 RID: 87 RVA: 0x00004668 File Offset: 0x00002868
-		public void UpdateStatusPendingPosts(int val)
-		{
-			StatusObject status = this.Status;
-			lock (status)
-			{
-				this.Status.PendingPosts = val;
-				int num = (int)Math.Round((double)val / (double)this.Status.TotalPosts * 100.0);
-				this.UpdatePercentageComplete(100 - num);
-			}
-		}
+    public void SavePostsFound()
+    {
+      MySettings.Instance.SaveHistoryFile((IEnumerable<IFileToDownload>) new List<IFileToDownload>((IEnumerable<IFileToDownload>) this.PostsFound), this.Website.PendingFilePath);
+    }
 
-		// Token: 0x06000058 RID: 88 RVA: 0x000046D8 File Offset: 0x000028D8
-		public void UpdateStatusFailedPosts(int val)
-		{
-			StatusObject status = this.Status;
-			lock (status)
-			{
-				this.Status.FailedPosts = val;
-			}
-			this.MaxThreads = Math.Max(2, this.MaxThreads - 1);
-			Console.WriteLine("Reducing to : " + this.MaxThreads + " Threads");
-		}
+    public IFileToDownload NewDownloadFile(string url, string filename, string key)
+    {
+      return (IFileToDownload) new FileToDownload(url, filename, key);
+    }
 
-		// Token: 0x06000059 RID: 89 RVA: 0x00004754 File Offset: 0x00002954
-		public void UpdateStatusText(string val)
-		{
-			StatusObject status = this.Status;
-			lock (status)
-			{
-				this.Status.DisplayStatus = val;
-			}
-		}
+    public IFileToDownload NewDownloadFile(string url, string filename)
+    {
+      return (IFileToDownload) new FileToDownload(url, filename);
+    }
 
-		// Token: 0x0600005A RID: 90 RVA: 0x0000479C File Offset: 0x0000299C
-		public void UpdatePercentageComplete(int val)
-		{
-			StatusObject status = this.Status;
-			lock (status)
-			{
-				this.Status.ProgressBar = val;
-			}
-		}
+    public void UpdateStatusTotalPosts(int val)
+    {
+      StatusObject status = this.Status;
+      bool lockTaken = false;
+      try
+      {
+        Monitor.Enter((object) status, ref lockTaken);
+        this.Status.TotalPosts = new int?(val);
+      }
+      finally
+      {
+        if (lockTaken)
+          Monitor.Exit((object) status);
+      }
+    }
 
-		// Token: 0x0600005B RID: 91 RVA: 0x000047E4 File Offset: 0x000029E4
-		public void UpdatePreviewImagePath(string val)
-		{
-			if (!val.EndsWith(".jpg"))
-			{
-				return;
-			}
-			StatusObject status = this.Status;
-			lock (status)
-			{
-				this.Status.PreviewImageSource = val;
-			}
-		}
+    public void UpdateStatusPendingPosts(int val)
+    {
+      StatusObject status = this.Status;
+      bool lockTaken = false;
+      try
+      {
+        Monitor.Enter((object) status, ref lockTaken);
+        this.Status.PendingPosts = new int?(val);
+        this.UpdatePercentageComplete(100 - (int) Math.Round((double) val / (double) this.Status.TotalPosts.Value * 100.0));
+      }
+      finally
+      {
+        if (lockTaken)
+          Monitor.Exit((object) status);
+      }
+    }
 
-		// Token: 0x0600005C RID: 92 RVA: 0x00004838 File Offset: 0x00002A38
-		public void SaveSettings(string settings)
-		{
-			MySettings.Instance.SavePluginSettingsFiles(settings, this.Website.PluginSettingsFilePath);
-		}
+    public void UpdateStatusFailedPosts(int val)
+    {
+      StatusObject status = this.Status;
+      bool lockTaken = false;
+      try
+      {
+        Monitor.Enter((object) status, ref lockTaken);
+        this.Status.FailedPosts = new int?(val);
+      }
+      finally
+      {
+        if (lockTaken)
+          Monitor.Exit((object) status);
+      }
+      this.MaxThreads = Math.Max(2, this.MaxThreads - 1);
+      Console.WriteLine("Reducing to : " + (object) this.MaxThreads + " Threads");
+    }
 
-		// Token: 0x0400002E RID: 46
-		[CompilerGenerated]
-		private List<IFileToDownload> list_0;
+    public void UpdateStatusText(string val)
+    {
+      StatusObject status = this.Status;
+      bool lockTaken = false;
+      try
+      {
+        Monitor.Enter((object) status, ref lockTaken);
+        this.Status.DisplayStatus = val;
+      }
+      finally
+      {
+        if (lockTaken)
+          Monitor.Exit((object) status);
+      }
+    }
 
-		// Token: 0x0400002F RID: 47
-		[CompilerGenerated]
-		private List<Thread> list_1;
+    public void UpdatePercentageComplete(int val)
+    {
+      StatusObject status = this.Status;
+      bool lockTaken = false;
+      try
+      {
+        Monitor.Enter((object) status, ref lockTaken);
+        this.Status.ProgressBar = val;
+      }
+      finally
+      {
+        if (lockTaken)
+          Monitor.Exit((object) status);
+      }
+    }
 
-		// Token: 0x04000030 RID: 48
-		[CompilerGenerated]
-		private List<IFileToDownload> list_2;
+    public void UpdatePreviewImagePath(string val)
+    {
+      if (!val.EndsWith(".jpg") || !System.IO.File.Exists(val))
+        return;
+      StatusObject status = this.Status;
+      bool lockTaken = false;
+      try
+      {
+        Monitor.Enter((object) status, ref lockTaken);
+        this.Status.PreviewImageSource = val;
+      }
+      finally
+      {
+        if (lockTaken)
+          Monitor.Exit((object) status);
+      }
+    }
 
-		// Token: 0x04000031 RID: 49
-		[CompilerGenerated]
-		private Queue<IFileToDownload> queue_0;
+    public void SaveSettings(string settings)
+    {
+      MySettings.Instance.SavePluginSettingsFiles(settings, this.Website.PluginSettingsFilePath);
+    }
 
-		// Token: 0x04000032 RID: 50
-		[CompilerGenerated]
-		private IWebsite iwebsite_0;
-
-		// Token: 0x04000033 RID: 51
-		private string string_0;
-
-		// Token: 0x04000034 RID: 52
-		[CompilerGenerated]
-		private int int_0;
-	}
+    public void DownloadPostsFound(CancellationToken _cancellationToken)
+    {
+      List<IFileToDownload> list = new List<IFileToDownload>((IEnumerable<IFileToDownload>) this.PostsFound);
+      int num = 0;
+      foreach (string str in Enumerable.ToList<string>(Enumerable.Select<string, string>(Directory.EnumerateFiles(this.Website.LocalDir), new Func<string, string>(Path.GetFileName))))
+      {
+        // ISSUE: object of a compiler-generated type is created
+        // ISSUE: variable of a compiler-generated type
+        Ripper.Class3 class3 = new Ripper.Class3();
+        // ISSUE: reference to a compiler-generated field
+        class3.string_0 = str;
+        // ISSUE: reference to a compiler-generated method
+        IFileToDownload fileToDownload = Enumerable.FirstOrDefault<IFileToDownload>((IEnumerable<IFileToDownload>) list, new Func<IFileToDownload, bool>(class3.method_0));
+        // ISSUE: reference to a compiler-generated field
+        if (fileToDownload != null && new FileInfo(Path.Combine(this.Website.LocalDir, class3.string_0)).Length > 0L)
+          list.Remove(fileToDownload);
+      }
+      this.PostsFound = new System.Collections.Generic.Queue<IFileToDownload>((IEnumerable<IFileToDownload>) list);
+      list.Clear();
+      this.UpdateStatusPendingPosts(this.PostsFound.Count);
+      while (!_cancellationToken.IsCancellationRequested)
+      {
+        // ISSUE: object of a compiler-generated type is created
+        // ISSUE: variable of a compiler-generated type
+        Ripper.Class4 class4 = new Ripper.Class4();
+        // ISSUE: reference to a compiler-generated field
+        class4.ripper_0 = this;
+        while (this.ActiveThreads.Count > this.MaxThreads)
+        {
+          try
+          {
+            Thread.Sleep(50);
+          }
+          catch (Exception ex)
+          {
+          }
+        }
+        // ISSUE: reference to a compiler-generated field
+        class4.ifileToDownload_0 = (IFileToDownload) null;
+        System.Collections.Generic.Queue<IFileToDownload> postsFound = this.PostsFound;
+        bool lockTaken = false;
+        try
+        {
+          Monitor.Enter((object) postsFound, ref lockTaken);
+          if (num++ == 50)
+          {
+            num = 0;
+            this.SaveHistory();
+            this.MaxThreads = Math.Min(this.MaxThreads + 1, 10);
+          }
+          if (this.PostsFound.Count == 0)
+          {
+            this.SaveHistory();
+            Console.WriteLine("Queue is empty, but still have ongoing threads");
+            while (this.ActiveThreads.Count > 0)
+              Thread.Sleep(50);
+            break;
+          }
+          // ISSUE: reference to a compiler-generated field
+          class4.ifileToDownload_0 = this.PostsFound.Dequeue();
+          this.UpdateStatusPendingPosts(this.PostsFound.Count);
+          // ISSUE: reference to a compiler-generated field
+          string url = class4.ifileToDownload_0.Url;
+        }
+        finally
+        {
+          if (lockTaken)
+            Monitor.Exit((object) postsFound);
+        }
+        // ISSUE: reference to a compiler-generated method
+        Thread thread = new Thread(new ThreadStart(class4.method_0));
+        // ISSUE: reference to a compiler-generated field
+        thread.Name = class4.ifileToDownload_0.Filename;
+        this.ActiveThreads.Add(thread);
+        thread.Start();
+      }
+      while (true)
+      {
+        IList<Thread> activeThreads = this.ActiveThreads;
+        bool lockTaken = false;
+        try
+        {
+          Monitor.Enter((object) activeThreads, ref lockTaken);
+          if (this.ActiveThreads.Count == 0)
+            break;
+        }
+        finally
+        {
+          if (lockTaken)
+            Monitor.Exit((object) activeThreads);
+        }
+        Thread.Sleep(1000);
+      }
+    }
+  }
 }

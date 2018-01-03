@@ -1,20 +1,16 @@
-﻿using System;
+﻿// Decompiled with JetBrains decompiler
+// Type: TumblRipper.PluginInterface.TrPluginConfiguration
+// Assembly: TumblRipper.PluginInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: E766857F-E220-474D-9A9B-64EE1BB1D7AF
+// Assembly location: C:\Users\xen\Downloads\TumblRipper3\TumblRipper.PluginInterface.dll
 
-namespace TumblRipper
+namespace TumblRipper.PluginInterface
 {
-	// Token: 0x0200000F RID: 15
-	public class TrPluginConfiguration
-	{
-		// Token: 0x0400002E RID: 46
-		public bool HasExtraConfiguration;
-
-		// Token: 0x0400002F RID: 47
-		public int Version;
-
-		// Token: 0x04000030 RID: 48
-		public string Author;
-
-		// Token: 0x04000031 RID: 49
-		public string AuthorWebsite;
-	}
+  public class TrPluginConfiguration
+  {
+    public string Author;
+    public string AuthorWebsite;
+    public bool HasExtraConfiguration;
+    public int Version;
+  }
 }

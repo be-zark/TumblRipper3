@@ -1,0 +1,24 @@
+<Window x:Class="TumblRipper.Windows.BugReporter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TumblRipper.Windows.BugReporter"
+        Title="BugReport" Height="591.949" Width="525">
+  <DockPanel Margin="10">
+    <StackPanel DockPanel.Dock="Top">
+      <TextBlock>
+        The application encountered an error. Please help us improve by sending an error report
+      </TextBlock>
+      <TextBlock FontWeight="Bold" FontSize="14">
+        Describe what you were doing :
+      </TextBlock>
+      <TextBox x:Name="ErrorDescription" AcceptsReturn="true" AcceptsTab="true" Height="200" Margin="10"/>
+      <TextBox x:Name="ErrorLog" Height="200" IsReadOnly="true" Margin="10"/>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" Height="50">
+      <Button Click="btnSend" Content="Send Report" Margin="10" Width="100"/>
+      <Button Click="Button_Click" Content="Cancel" Margin="10" Width="100"/>
+    </StackPanel>
+  </DockPanel>
+</Window>

@@ -1,37 +1,32 @@
-﻿using System;
+﻿// Decompiled with JetBrains decompiler
+// Type: TumblRipper.PluginInterface.ITrPlugin
+// Assembly: TumblRipper.PluginInterface, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: E766857F-E220-474D-9A9B-64EE1BB1D7AF
+// Assembly location: C:\Users\xen\Downloads\TumblRipper3\TumblRipper.PluginInterface.dll
+
+using System.Collections.Generic;
 using System.Threading;
-using System.Windows.Controls;
 
-namespace TumblRipper
+namespace TumblRipper.PluginInterface
 {
-	// Token: 0x02000010 RID: 16
-	public interface ITrPlugin
-	{
-		// Token: 0x06000075 RID: 117
-		string GetName();
+  public interface ITrPlugin
+  {
+    string GetName();
 
-		// Token: 0x06000076 RID: 118
-		TrPluginConfiguration GetInfo();
+    TrPluginConfiguration GetInfo();
 
-		// Token: 0x06000077 RID: 119
-		bool ValidateUrl(IRipper w, string url);
+    bool ValidateUrl(IRipper w, string url);
 
-		// Token: 0x06000078 RID: 120
-		string GetFriendlyUrlTitle(IRipper w, string url);
+    string GetFriendlyUrlTitle(IRipper w, string url);
 
-		// Token: 0x06000079 RID: 121
-		void Init();
+    void Init();
 
-		// Token: 0x0600007A RID: 122
-		ITrPlugin NewInstance(IRipper w, string config);
+    ITrPlugin NewInstance(IRipper w, string config);
 
-		// Token: 0x0600007B RID: 123
-		void Start(CancellationToken _cancellationToken);
+    void Start(CancellationToken _cancellationToken);
 
-		// Token: 0x0600007C RID: 124
-		string GetConfiguration();
+    string GetConfiguration(Dictionary<string, PluginOption> settings);
 
-		// Token: 0x0600007D RID: 125
-		UserControl GetControlPanel(string settings);
-	}
+    Dictionary<string, PluginOption> GetControlPanel(string settings);
+  }
 }

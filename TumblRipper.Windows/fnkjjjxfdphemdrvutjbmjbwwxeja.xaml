@@ -1,0 +1,30 @@
+<OqNSZsVHoOzMSxiDxujnNZLcaZYc xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:local="clr-namespace:TumblRipper.Windows"
+                              xmlns:Views="clr-namespace:TumblRipper.Windows.Views"
+                              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+  <FrameworkElement.DataContext>
+    <jNZshobRhysiXbmjDDUtHtLNjDTUA/>
+  </FrameworkElement.DataContext>
+  <StackPanel>
+    <DialogHost x:Name="DialogHostWait" FrameworkElement.HorizontalAlignment="Center"
+                FrameworkElement.VerticalAlignment="Center">
+      <DialogHost.DialogContent>
+        <StackPanel Margin="16">
+          <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" HorizontalAlignment="Center"
+                       Margin="16" IsIndeterminate="true" Value="0"/>
+          <Button Style="{StaticResource MaterialDesignFlatButton}" IsCancel="true"
+                  Command="{x:Static DialogHost.CloseDialogCommand}" CommandParameter="Sample2Cancel"
+                  HorizontalAlignment="Center">CANCEL</Button>
+        </StackPanel>
+      </DialogHost.DialogContent>
+    </DialogHost>
+    <TextBlock Text="{Binding Path=StatusText}"/>
+    <TextBox Hint="Email" Margin="10" Text="{Binding Path=Email}"/>
+    <TextBox Hint="Serial" Margin="10" Text="{Binding Path=Licence}"/>
+    <Button Content="Validate" Margin="10"/>
+    <Label Content="Lost your serial ?" FontSize="10" HorizontalContentAlignment="Right"/>
+  </StackPanel>
+</OqNSZsVHoOzMSxiDxujnNZLcaZYc>

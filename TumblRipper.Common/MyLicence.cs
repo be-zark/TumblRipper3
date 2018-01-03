@@ -1,70 +1,61 @@
-﻿using System;
+﻿// Decompiled with JetBrains decompiler
+// Type: TumblRipper.Common.MyLicence
+// Assembly: TumblRipper.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// MVID: 6C21BADD-58D6-4711-989C-48D300E54E81
+// Assembly location: C:\Users\xen\Downloads\TumblRipper3\TumblRipper.Common.dll
+
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Xml.Serialization;
 
-namespace TumblRipper
+namespace TumblRipper.Common
 {
-	// Token: 0x02000010 RID: 16
-	[Serializable]
-	public class MyLicence
-	{
-		// Token: 0x17000013 RID: 19
-		// (get) Token: 0x06000075 RID: 117 RVA: 0x00004B70 File Offset: 0x00002D70
-		// (set) Token: 0x06000076 RID: 118 RVA: 0x00004B84 File Offset: 0x00002D84
-		public string Serial { get; set; }
+  [Serializable]
+  public class MyLicence
+  {
+    public string Serial { get; set; }
 
-		// Token: 0x17000014 RID: 20
-		// (get) Token: 0x06000077 RID: 119 RVA: 0x00004B98 File Offset: 0x00002D98
-		// (set) Token: 0x06000078 RID: 120 RVA: 0x00004BAC File Offset: 0x00002DAC
-		public string Email { get; set; }
+    public string Email { get; set; }
 
-		// Token: 0x06000079 RID: 121 RVA: 0x00004BC0 File Offset: 0x00002DC0
-		public MyLicence(string string_0, string string_1)
-		{
-			this.Serial = string_0;
-			this.Email = string_1;
-		}
+    public MyLicence(string string_0, string string_1)
+    {
+      this.Serial = string_0;
+      this.Email = string_1;
+    }
 
-		// Token: 0x0600007A RID: 122 RVA: 0x000033A4 File Offset: 0x000015A4
-		private MyLicence()
-		{
-		}
+    private MyLicence()
+    {
+    }
 
-		// Token: 0x0600007B RID: 123 RVA: 0x00004BE4 File Offset: 0x00002DE4
-		public static MyLicence LoadFromFile(string path)
-		{
-			if (!File.Exists(path))
-			{
-				return null;
-			}
-			MyLicence result;
-			try
-			{
-				byte[] buffer = ProtectedData.Unprotect(File.ReadAllBytes(path), null, DataProtectionScope.LocalMachine);
-				XmlSerializer xmlSerializer = new XmlSerializer(typeof(MyLicence));
-				MemoryStream memoryStream = new MemoryStream(buffer);
-				MyLicence myLicence = xmlSerializer.Deserialize(memoryStream) as MyLicence;
-				memoryStream.Close();
-				result = myLicence;
-			}
-			catch (Exception)
-			{
-				result = null;
-			}
-			return result;
-		}
+    public static MyLicence LoadFromFile(string path)
+    {
+      if (!File.Exists(path))
+        return (MyLicence) null;
+      try
+      {
+        byte[] buffer = ProtectedData.Unprotect(File.ReadAllBytes(path), (byte[]) null, DataProtectionScope.LocalMachine);
+        XmlSerializer xmlSerializer = new XmlSerializer(typeof (MyLicence));
+        MemoryStream memoryStream1 = new MemoryStream(buffer);
+        MemoryStream memoryStream2 = memoryStream1;
+        MyLicence myLicence = xmlSerializer.Deserialize((Stream) memoryStream2) as MyLicence;
+        memoryStream1.Close();
+        return myLicence;
+      }
+      catch (Exception ex)
+      {
+        return (MyLicence) null;
+      }
+    }
 
-		// Token: 0x0600007C RID: 124 RVA: 0x00004C4C File Offset: 0x00002E4C
-		public static void SaveToFile(string path, MyLicence licence)
-		{
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(MyLicence));
-			using (MemoryStream memoryStream = new MemoryStream())
-			{
-				xmlSerializer.Serialize(memoryStream, licence);
-				byte[] bytes = ProtectedData.Protect(memoryStream.ToArray(), null, DataProtectionScope.LocalMachine);
-				File.WriteAllBytes(path, bytes);
-			}
-		}
-	}
+    public static void SaveToFile(string path, MyLicence licence)
+    {
+      using (MemoryStream memoryStream = new MemoryStream())
+      {
+        new XmlSerializer(typeof (MyLicence)).Serialize((Stream) memoryStream, (object) licence);
+        byte[] bytes = ProtectedData.Protect(memoryStream.ToArray(), (byte[]) null, DataProtectionScope.LocalMachine);
+        File.WriteAllBytes(path, bytes);
+      }
+    }
+  }
 }

@@ -1,0 +1,67 @@
+<ZWpYpXiTtrQKTKqofGoKghjCqPDc xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:local="clr-namespace:TumblRipper.Windows"
+                              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                              xmlns:Views="clr-namespace:TumblRipper.Windows.Views"
+                              GlowBrush="{DynamicResource AccentColorBrush}" Control.BorderThickness="1" TitleCaps="false"
+                              Window.Title="AddWebsite" FrameworkElement.Height="710" FrameworkElement.Width="580"
+                              Window.SizeToContent="Height" TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                              TextElement.FontWeight="Regular" TextElement.FontSize="13" TextOptions.TextFormattingMode="Ideal"
+                              TextOptions.TextRenderingMode="Auto" Control.Background="{DynamicResource MaterialDesignPaper}"
+                              Control.FontFamily="{DynamicResource MaterialDesignFont}">
+  <FrameworkElement.DataContext>
+    <AevcykIBNFviTKdCmDfOwkCQxBom/>
+  </FrameworkElement.DataContext>
+  <DockPanel Margin="10">
+    <StackPanel DockPanel.Dock="Top">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Margin="10" Grid.Column="0" Hint="Website" IsFloating="true" Text="{Binding Url}"/>
+        <ComboBox x:Name="CbPlugins" Margin="10" Grid.Column="1" VerticalAlignment="Bottom"
+                  ItemsSource="{Binding AvailablePlugins}" SelectedItem="{Binding Plugin}"/>
+      </Grid>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Margin="10" Grid.Column="0" Hint="Folder" IsFloating="true" Text="{Binding Path}"
+                 Visibility="{Binding Path=PluginSelected}"/>
+        <Button Grid.Column="1" Content="Browse" VerticalAlignment="Top" Margin="0,25,0,0"
+                Visibility="{Binding Path=PluginSelected}"/>
+      </Grid>
+      <DialogHost x:Name="DialogHostWait" FrameworkElement.HorizontalAlignment="Center"
+                  FrameworkElement.VerticalAlignment="Center">
+        <DialogHost.DialogContent>
+          <StackPanel Margin="16">
+            <ProgressBar Style="{DynamicResource MaterialDesignCircularProgressBar}" HorizontalAlignment="Center"
+                         Margin="16" IsIndeterminate="true" Value="0"/>
+            <Button Style="{StaticResource MaterialDesignFlatButton}" IsCancel="true"
+                    Command="{x:Static DialogHost.CloseDialogCommand}" CommandParameter="Sample2Cancel"
+                    HorizontalAlignment="Center">CANCEL</Button>
+          </StackPanel>
+        </DialogHost.DialogContent>
+      </DialogHost>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Margin="10" Grid.Column="0" Hint="Title" IsFloating="true" VerticalAlignment="Center"
+                 Visibility="{Binding Path=PluginSelected}" Text="{Binding Title}"/>
+        <Button Grid.Column="1" Content="..." VerticalAlignment="Bottom" Visibility="{Binding Path=PluginSelected}"/>
+      </Grid>
+      <Expander Header="More Options" Margin="10" Visibility="{Binding Path=PluginSelected}">
+        <ContentControl x:Name="CplPlugin" Margin="10,4,0,0" Content="{Binding ExtraPanel}"/>
+      </Expander>
+    </StackPanel>
+    <Button DockPanel.Dock="Bottom" Content="Save" Width="200" VerticalAlignment="Bottom"
+            Visibility="{Binding Path=PluginSelected}"/>
+  </DockPanel>
+</ZWpYpXiTtrQKTKqofGoKghjCqPDc>
